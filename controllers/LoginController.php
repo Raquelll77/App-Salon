@@ -43,6 +43,10 @@ class LoginController
                 } else {
                     //hashear password
                     $usuario->hashPassword();
+
+                    //generar un token unico
+                    $usuario->crearToken();
+
                     debuguear($usuario);
                 }
             }
