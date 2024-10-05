@@ -5,7 +5,8 @@
         "psr-4": {
             "MVC\\" : "./",
             "Controllers\\" : "./controllers",
-            "Model\\" : "./models"
+            "Model\\" : "./models",
+            "Clases\\" : "./clases"
 
         }
     },
@@ -15,5 +16,7 @@
             "email": "zilpa.alvarado@unah.hn"
         }
     ],
-    "require": {}
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
 }
