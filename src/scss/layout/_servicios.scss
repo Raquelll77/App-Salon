@@ -4,9 +4,11 @@
 .listado-servicios{
     display: grid;
     gap: 2rem;
-    @include m.tablet{
+    @include m.grid(2, 2rem);
+
+    /* @include m.tablet{
         @include m.grid(2, 2rem);
-    }
+    } */
 
     .servicio{
         padding: 3rem;
@@ -38,4 +40,15 @@
             margin: 0;
         }
     }
+        // Diseño responsivo para pantallas más pequeñas
+        @media (max-width: 768px) {
+            gap: 1rem; // Reducir el espacio entre los elementos
+            .servicio {
+                padding: 1.5rem; // Reducir el padding para ajustarse mejor a pantallas pequeñas
+    
+                .precio-servicio {
+                    font-size: 2rem; // Ajustar el tamaño de la fuente en pantallas pequeñas
+                }
+            }
+        }
 }

@@ -2,6 +2,8 @@
 
 namespace Controllers;
 
+use Model\Cita;
+use Model\CitaServicio;
 use Model\Servicio;
 
 class APIController
@@ -16,5 +18,29 @@ class APIController
 
         // Codifica los datos a JSON con la opción de evitar la codificación de caracteres Unicode (\uXXXX)
         echo json_encode($servicios, JSON_UNESCAPED_UNICODE);
+    }
+
+    public static function guardar()
+    {   //almacena la cita y devuelve el id
+        $cita = new Cita($_POST);
+        $resultado = $cita->guardar();
+
+        $id = $resultado['id'];
+
+        //almacena los servicios con el id de la cita
+        $idServicios = explode(",", $_POST['servicios']);
+
+        foreach ($idServicios as $idServicio) {
+            $args = [
+                'citaId' => $id,
+                'servicioId' => $idServicio
+            ];
+
+            $citaServicio = new CitaServicio($args);
+            $citaServicio->guardar();
+        }
+
+        //retornamos una respuesta
+        echo json_encode(['resultado' => $resultado]);
     }
 }
