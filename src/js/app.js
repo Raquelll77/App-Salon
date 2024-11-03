@@ -105,7 +105,7 @@ function paginaSiguiente() {
 async function consultarAPI() {
 
     try {
-        const url = 'http://localhost:3000/api/servicios';
+        const url = '/api/servicios';
         const resultado = await fetch(url);
         const servicios = await resultado.json();
 
@@ -183,30 +183,25 @@ function seleccionarFecha(){
     });
 }
 
+
 function seleccionarHora(){
     const inputHora = document.querySelector('#hora');
     inputHora.addEventListener('input', function(e){
-        
         const horaCita = e.target.value;
-        const hora = horaCita.split(':')[0];
-        const minutos = parseInt(horaCita.split(':')[1]);
+        const hora = parseInt(horaCita.split(':')[0], 10);
+        const minutos = parseInt(horaCita.split(':')[1], 10);
         const fechaSeleccionada = new Date(cita.fecha);
         const fechaActual = new Date(); // Fecha y hora actuales
 
-        if(hora < 8  || hora > 18){
-            mostrarAlerta('Hora no valida', 'error', '.formulario');
+        // Validación de hora en el rango permitido
+        if (hora < 8 || hora > 18) {
+            mostrarAlerta('Hora no válida. El horario permitido es entre 08:00 y 18:00.', 'error', '.formulario');
             e.target.value = '';
+            return;
         }
-        if (fechaSeleccionada.toDateString() === fechaActual.toDateString()) {
-            if (hora < fechaActual.getHours() || (hora === fechaActual.getHours() && minutos < fechaActual.getMinutes())) {
-                mostrarAlerta('Hora no válida. No puedes seleccionar una hora anterior a la actual.', 'error', '.formulario');
-                e.target.value = '';
-                return;
-            }
-        }else{
-            cita.hora = e.target.value;
-        }
-    })
+        // Asignar la hora si todas las validaciones pasan
+        cita.hora = e.target.value;
+    });
 }
 
 function mostrarAlerta(mensaje, tipo, elemento, desaparece = true){
@@ -319,7 +314,7 @@ async function reservarCita(){
     datos.append('servicios', idServicios);
 
     //peticion hacia la api
-    const url = 'http://localhost:3000/api/citas';
+    const url = '/api/citas';
     const respuesta = await fetch(url, {
         method:'POST',
         body: datos
